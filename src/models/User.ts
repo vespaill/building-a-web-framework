@@ -1,4 +1,7 @@
+import axios, { AxiosResponse } from "axios"
+
 interface UserProps {
+    id?: number;
     name?: string /* optional */;
     age?: number;
 }
@@ -52,7 +55,13 @@ export class User {
     /**
      * Fetches some data from the server about a particular user.
      */
-    // fetch(): Promise {}
+    fetch(): void {
+        axios
+            .get(`http://localhost:3000/users/${this.get('id')}`)
+            .then((response: AxiosResponse): void => {
+                this.set(response.data);
+            });
+    }
     /**
      * Saves some data about this user to the server.
      */

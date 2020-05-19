@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios"
+import { Eventing } from "./Eventing";
+
 
 interface UserProps {
     id?: number;
@@ -6,10 +8,15 @@ interface UserProps {
     age?: number;
 }
 
-type Callback = () => void;
-
+/* Composition Options:
+   #1: Accept dependencies as second constructor argument.
+   #2: Only accept dependencies into constructor and define a static class
+       method to pre-configure User and assign properties afterwards.
+   #3: Only accept properties into constructor and hard-code dependencies as
+       class properties.
+*/
 export class User {
-    events: { [key: string]: Callback[] } = {};
+    events: Eventing = new Eventing();
     /**
      * @param data Object to store information about a particular user (name, age).
      */
@@ -28,30 +35,7 @@ export class User {
     set(update: UserProps): void {
         Object.assign(this.data, update);
     }
-    /**
-     * Registers an event handler with this object, so other parts of the app
-     * know when something changes.
-     * @param eventName Name of the event.
-     * @param callback Function to execute on trigger.
-     */
-    on(eventName: string, callback: Callback): void {
-        const handlers = this.events[eventName] || [];
-        handlers.push(callback);
-        this.events[eventName] = handlers;
-    }
-    /**
-     * Triggers an event ot tell other parts of the app that something has
-     * changed.
-     * @param eventName Name of the event to trigger.
-     */
-    trigger(eventName: string): void {
-        const handlers = this.events[eventName];
-        if (!handlers || handlers.length === 0) return;
 
-        handlers.forEach(callback => {
-            callback();
-        });
-    }
     /**
      * Fetches some data from the server about a particular user.
      */
@@ -74,3 +58,8 @@ export class User {
         }
     }
 }
+
+
+const user = new User({});
+
+user.events

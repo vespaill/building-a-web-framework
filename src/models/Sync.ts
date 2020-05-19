@@ -1,13 +1,20 @@
 import axios, { AxiosResponse, AxiosPromise } from "axios";
-import { UserProps } from "./User";
 
-export class Sync {
+interface HasId {
+    id?: number;
+}
+
+/**
+ * Can only use class Sync with some type T that has an id property that is a
+ * number.
+ */
+export class Sync<T extends HasId> {
     constructor(public rootUrl: string) {}
     /**
      * Returns data from the server about a particular user.
      * @param id id of the user to fetch.
      */
-    fetch(id: number): AxiosPromise {
+    fetch(id: number): AxiosPromise<T> {
         return axios.get(`${this.rootUrl}/${id}`);
     }
     /**
@@ -17,9 +24,12 @@ export class Sync {
      * properties.
      * @param data object containing user data to update or create.
      */
-    save(data: UserProps): AxiosPromise {
+    save(data: T): AxiosPromise<T> {
         const { id } = data;
-        if (id) return axios.put(`${this.rootUrl}/${id}`, data);
-        return axios.post(this.rootUrl, data);
+        if (id) {
+            return axios.put(`${this.rootUrl}/${id}`, data);
+        } else {
+            return axios.post(this.rootUrl, data);
+        }
     }
 }

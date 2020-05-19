@@ -1,10 +1,14 @@
 import { Eventing } from "./Eventing";
+import { Sync } from "./Sync";
+import { Attributes } from "./Attributes";
 
 export interface UserProps {
     id?: number;
-    name?: string /* optional */;
+    name?: string;
     age?: number;
 }
+
+const rootUrl = "http://localhost:3000/users";
 
 /* Composition Options:
    #1: Accept dependencies as second constructor argument.
@@ -14,23 +18,7 @@ export interface UserProps {
        class properties.
 */
 export class User {
+    public attributes: Attributes<UserProps>;
     public events: Eventing = new Eventing();
-    /**
-     * @param data Object to store information about a particular user (name, age).
-     */
-    constructor(private data: UserProps) {}
-    /**
-     * Gets a single piece of info about this user (name, age).
-     * @param propName name of the UserProps preperty to get.
-     */
-    get(propName: string): string | number {
-        return this.data[propName];
-    }
-    /**
-     * Changes information about this user (name, age).
-     * @param update UserProps object with update content.
-     */
-    set(update: UserProps): void {
-        Object.assign(this.data, update);
-    }
+    public sync: Sync<UserProps> = new Sync(rootUrl);
 }

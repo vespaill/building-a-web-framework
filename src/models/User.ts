@@ -1,6 +1,7 @@
 import { Eventing } from "./Eventing";
 import { Sync } from "./Sync";
 import { Attributes } from "./Attributes";
+import { Callback } from "./Eventing";
 
 export interface UserProps {
     id?: number;
@@ -24,5 +25,17 @@ export class User {
 
     constructor(attrs: UserProps) {
         this.attributes = new Attributes<UserProps>(attrs);
+    }
+
+    get on() {
+        return this.events.on;
+    }
+
+    get trigger() {
+        return this.events.trigger;
+    }
+
+    get get() {
+        return this.attributes.get;
     }
 }

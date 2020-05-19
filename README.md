@@ -20,3 +20,16 @@
 
 -   Serialize: convert data from an object into some save-able format (JSON).
 -   Deserialize: put data on an object using some previously saved data (JSON).
+
+#### Reminder on how 'this' works in JavaScript
+    const colors = {
+        color: 'red',
+        printColor() {
+            console.log(this.color);
+        }
+    }
+    // 'this' is equal to whatever's left of our function call
+    colors.printColor();    // 'red'
+
+    const printColor = colors.printColor;
+    printColor();           // Error, trying to reference undefined.color

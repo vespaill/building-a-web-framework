@@ -12,7 +12,7 @@ export class Eventing {
      * @param eventName Name of the event.
      * @param callback Function to execute on trigger.
      */
-    on(eventName: string, callback: Callback): void {
+    on = (eventName: string, callback: Callback): void => {
         const handlers = this.events[eventName] || [];
         handlers.push(callback);
         this.events[eventName] = handlers;
@@ -22,7 +22,7 @@ export class Eventing {
      * event's callback array.
      * @param eventName Name of the event to trigger.
      */
-    trigger(eventName: string): void {
+    trigger = (eventName: string): void => {
         const handlers = this.events[eventName];
         if (!handlers || handlers.length === 0) return;
 

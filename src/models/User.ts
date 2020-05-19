@@ -16,7 +16,7 @@ interface UserProps {
        class properties.
 */
 export class User {
-    events: Eventing = new Eventing();
+    public events: Eventing = new Eventing();
     /**
      * @param data Object to store information about a particular user (name, age).
      */
@@ -35,7 +35,6 @@ export class User {
     set(update: UserProps): void {
         Object.assign(this.data, update);
     }
-
     /**
      * Fetches some data from the server about a particular user.
      */

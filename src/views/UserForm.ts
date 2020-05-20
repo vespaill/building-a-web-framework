@@ -21,8 +21,8 @@ export class UserForm {
     // onHeaderHover(): void {
     //     console.log("H1 was hovered over");
     // }
-    onSetAgeClick(): void {
-        console.log("Age button was clicked");
+    onSetAgeClick = (): void => {
+        this.model.setRandomAge();
     }
     /**
      * Returns a string that contains a UserForm HTML template.

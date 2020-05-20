@@ -4,7 +4,17 @@ export class UserForm {
     /**
      * @param parent A reference to some HTML element that exists inside the DOM
      */
-    constructor(public parent: Element, public model: User) {}
+    constructor(public parent: Element, public model: User) {
+        this.bindModel();
+    }
+    /**
+     *
+     */
+    bindModel(): void {
+        this.model.on("change", () => {
+            this.render();
+        });
+    }
     /**
      *
      */
@@ -57,6 +67,7 @@ export class UserForm {
     }
     /* Take HTML template and append it as a child to this UserForm's parent. */
     render(): void {
+        this.parent.innerHTML = "";
         const templateElement = document.createElement("template");
         templateElement.innerHTML = this.template();
 

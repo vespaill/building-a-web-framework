@@ -27,9 +27,16 @@ export class Model<T extends HasId> {
         private sync: Sync<T>
     ) {}
 
-    get on() { return this.events.on; }
-    get trigger() { return this.events.trigger; }
-    get get() { return this.attributes.get; }
+    /**
+     * These 'getters' are the save as if we had written something like
+     * get on() { return this.events.on; }
+     * However, they only work if the properties they reference have already
+     * been defined. To make sure that's the case, we need to include them in a
+     * constructor list as arguments.
+     */
+    on = this.events.on;
+    trigger = this.events.trigger;
+    get = this.attributes.get;
 
     set(update: T): void {
         this.attributes.set(update);

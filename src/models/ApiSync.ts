@@ -8,7 +8,7 @@ interface HasId {
  * Can only use class Sync with some type T that has an id property that is a
  * number.
  */
-export class Sync<T extends HasId> {
+export class ApiSync<T extends HasId> {
     constructor(public rootUrl: string) {}
     /**
      * Returns data from the server about a particular user.
